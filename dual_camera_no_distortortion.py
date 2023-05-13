@@ -178,7 +178,8 @@ def run_cameras():
                 new_camera_matrix_l, roi_l = cv.getOptimalNewCameraMatrix(K_l, dist_coeff_l, (w_l,h_l), 1, (w_l,h_l))
                 new_camera_matrix_r, roi_r = cv.getOptimalNewCameraMatrix(K_r, dist_coeff_r, (w_r,h_r), 1, (w_r,h_r))
                 left_image = cv.undistort(left_image_orin, K_l, dist_coeff_l, None, new_camera_matrix_l)
-                right_image = cv.undistort(right_image_orin, K_r, dist_coeff_r, None, new_camera_matrix_r)
+                right_image = cv.undistort(right_image_orin, K_l, dist_coeff_l, None, new_camera_matrix_l)
+                # right_image = cv.undistort(right_image_orin, K_r, dist_coeff_r, None, new_camera_matrix_r)
 
                 # x,y,w_l,h_l = roi_l
                 # left_image = left_image[y:y+h_l, x:x+w_l]

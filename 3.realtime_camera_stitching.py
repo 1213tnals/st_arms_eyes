@@ -162,6 +162,28 @@ def run_cameras():
                 _, left_image_orin = left_camera.read()
                 _, right_image_orin = right_camera.read()
 
+                # left_image_orin= np.dstack((cv.equalizeHist(left_image_orin[:,:,0]),
+                #                              cv.equalizeHist(left_image_orin[:,:,1]),
+                #                              cv.equalizeHist(left_image_orin[:,:,2])))
+                
+                # right_image_orin= np.dstack((cv.equalizeHist(right_image_orin[:,:,0]),
+                #                              cv.equalizeHist(right_image_orin[:,:,1]),
+                #                              cv.equalizeHist(right_image_orin[:,:,2])))
+
+                # img_cvt_l = cv.cvtColor(left_image_orin, cv.COLOR_BGR2YCrCb)
+                # img_cvt_r = cv.cvtColor(right_image_orin, cv.COLOR_BGR2YCrCb)
+
+                # img_hist_l = np.dstack((cv.equalizeHist(img_cvt_l[:,:,0]),
+                #                              cv.equalizeHist(img_cvt_l[:,:,1]),
+                #                              cv.equalizeHist(img_cvt_l[:,:,2])))
+                
+                # img_hist_r = np.dstack((cv.equalizeHist(img_cvt_r[:,:,0]),
+                #                              cv.equalizeHist(img_cvt_r[:,:,1]),
+                #                              cv.equalizeHist(img_cvt_r[:,:,2])))
+                
+                # left_image_orin = cv.cvtColor(img_hist_l, cv.COLOR_YCrCb2BGR)
+                # right_image_orin = cv.cvtColor(img_hist_r, cv.COLOR_YCrCb2BGR)
+
                 # define camera distortion data
                 K_l = np.array([[779.86083781,   0.        , 445.90364404],
                              [0.         ,  779.65153775, 269.26453119],
