@@ -157,6 +157,8 @@ def run_cameras():
         cv.namedWindow(window_title, cv.WINDOW_AUTOSIZE)
 
         try:
+            count = 0
+
             while True:
                 # get origin camera data
                 _, left_image_orin = left_camera.read()
@@ -213,14 +215,20 @@ def run_cameras():
 
                 # get feature points to realtime camera image stitching
                 brisk = cv.BRISK_create()
-                keypoints1, descriptors1 = brisk.detectAndCompute(left_image, None)
-                keypoints2, descriptors2 = brisk.detectAndCompute(right_image, None)
+
+                # keypoints1, descriptors1 = 0
+                # keypoints2, descriptors2 = 0
+
+                if(count==0):
+                    keypoints1, descriptors1 = brisk.detectAndCompute(left_image, None)
+                    keypoints2, descriptors2 = brisk.detectAndCompute(right_image, None)
+                    count+=1              
 
                 fmatcher = cv.DescriptorMatcher_create('BruteForce-Hamming')
                 match = fmatcher.match(descriptors1, descriptors2)
 
                 pts1, pts2 = [], []
-                window_size = (left_image.shape[1]*2-268, left_image.shape[0])    # window_size = 1600x475
+                window_size = (left_image.shape[1]*2-218, left_image.shape[0])    # window_size = 1600x475
         
                 for i in range(len(match)):
                     pts1.append(keypoints1[match[i].queryIdx].pt)
