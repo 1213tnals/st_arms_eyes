@@ -259,15 +259,15 @@ def run_cameras():
         finally:
 
             left_camera.stop()
-            left_camera.release()
             right_camera.stop()
+            left_camera.release()
             right_camera.release()
         cv.destroyAllWindows()
     else:
         print("Error: Unable to open both cameras")
         left_camera.stop()
-        left_camera.release()
         right_camera.stop()
+        left_camera.release()
         right_camera.release()
 
 
