@@ -237,8 +237,9 @@ def run_cameras():
                 pts2 = np.array(pts2, dtype=np.float32)
 
                 H, inlier_mask = cv.findHomography(pts2, pts1, cv.RANSAC)
+                print(H)
                 img_merged = cv.warpPerspective(right_image, H, window_size)
-                print(window_size)
+                # print(window_size)
                 img_merged[:,:left_image.shape[1]] = left_image    #Copy
 
                 # camera_images = np.hstack((left_image, right_image)) 
