@@ -127,7 +127,7 @@ def gstreamer_pipeline(
 
 
 def run_cameras():
-    window_title = "Dual CSI Cameras"
+    window_title = "Cameras Image Stitching"
     left_camera = CSI_Camera()
     left_camera.open(
         gstreamer_pipeline(
