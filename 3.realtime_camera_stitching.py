@@ -28,6 +28,10 @@ class CSI_Camera:
         self.read_thread = None
         self.read_lock = threading.Lock()
         self.running = False
+        
+        self.K = np.zeros((3,3))
+        self.dist_coeff = np.zeros((1,5))
+
 
     def open(self, gstreamer_pipeline_string):
         try:
@@ -136,6 +140,10 @@ def run_cameras():
             display_height=540,
         )
     )
+    left_camera.K = np.array([[779.86083781,   0.        , 445.90364404],
+                             [0.         ,  779.65153775, 269.26453119],
+                             [0.         ,  0.          , 1.          ]])
+    left_camera.dist_coeff = np.array([-0.329970284,  0.0813242658, -0.000012252, 0.00293898426, 0.102042450])
     left_camera.start()
 
     right_camera = CSI_Camera()
@@ -150,7 +158,12 @@ def run_cameras():
             display_height=540,
         )
     )
+    right_camera.K = np.array([[814.9685752,   0.        , 487.09541315],
+                             [0.         ,  813.76140548, 252.14976917],
+                             [0.         ,  0.          , 1.          ]])
+    right_camera.dist_coeff = np.array([-0.329970284,  0.0813242658, -0.000012252, 0.00293898426, 0.102042450])
     right_camera.start()
+    
 
     if left_camera.video_capture.isOpened() and right_camera.video_capture.isOpened():
 
@@ -187,59 +200,49 @@ def run_cameras():
                 # right_image_orin = cv.cvtColor(img_hist_r, cv.COLOR_YCrCb2BGR)
 
                 # define camera distortion data
-                K_l = np.array([[779.86083781,   0.        , 445.90364404],
-                             [0.         ,  779.65153775, 269.26453119],
-                             [0.         ,  0.          , 1.          ]])
-                dist_coeff_l = np.array([-0.329970284,  0.0813242658, -0.000012252, 0.00293898426, 0.102042450])
-
-                K_r = np.array([[814.9685752,   0.        , 487.09541315],
-                             [0.         ,  813.76140548, 252.14976917],
-                             [0.         ,  0.          , 1.          ]])
-                # dist_coeff_r = np.array([-0.398250277,  0.468108853, 0.468108853, 0.00512997293, -0.000341366984])
-                dist_coeff_r = np.array([-0.329970284,  0.0813242658, -0.000012252, 0.00293898426, 0.102042450])
-                # I don't know why using dist_coeff_l as dist_coeff_r is more better result, but I used it. 
                 
                 # image reshaping and undistorting
                 h_l, w_l = left_image_orin.shape[:2]
                 h_r, w_r = right_image_orin.shape[:2]
 
-                new_camera_matrix_l, roi_l = cv.getOptimalNewCameraMatrix(K_l, dist_coeff_l, (w_l,h_l), 1, (w_l,h_l))
-                new_camera_matrix_r, roi_r = cv.getOptimalNewCameraMatrix(K_r, dist_coeff_r, (w_r,h_r), 1, (w_r,h_r))
-                left_image = cv.undistort(left_image_orin, K_l, dist_coeff_l, None, new_camera_matrix_l)
-                right_image = cv.undistort(right_image_orin, K_r, dist_coeff_r, None, new_camera_matrix_r)
+                new_camera_matrix_l, roi_l = cv.getOptimalNewCameraMatrix(left_camera.K, left_camera.dist_coeff, (w_l,h_l), 1, (w_l,h_l))
+                new_camera_matrix_r, roi_r = cv.getOptimalNewCameraMatrix(right_camera.K, right_camera.dist_coeff, (w_r,h_r), 1, (w_r,h_r))
+                left_image = cv.undistort(left_image_orin, left_camera.K, left_camera.dist_coeff, None, new_camera_matrix_l)
+                right_image = cv.undistort(right_image_orin, right_camera.K, right_camera.dist_coeff, None, new_camera_matrix_r)
 
                 x,y,w_l,h_l = roi_l
                 left_image = left_image[y:y+h_l, x:x+w_l]
                 x,y,w_r,h_r = roi_r
                 right_image = right_image[y:y+h_r, x:x+w_r]
 
-                # get feature points to realtime camera image stitching
-                brisk = cv.BRISK_create()
-
-                # keypoints1, descriptors1 = 0
-                # keypoints2, descriptors2 = 0
-
                 if(count==0):
+                    # get feature points to realtime camera image stitching
+                    brisk = cv.BRISK_create()
+
+                    # keypoints1, descriptors1 = 0
+                    # keypoints2, descriptors2 = 0
+
+
                     keypoints1, descriptors1 = brisk.detectAndCompute(left_image, None)
                     keypoints2, descriptors2 = brisk.detectAndCompute(right_image, None)
                     count+=1              
 
-                fmatcher = cv.DescriptorMatcher_create('BruteForce-Hamming')
-                match = fmatcher.match(descriptors1, descriptors2)
+                    fmatcher = cv.DescriptorMatcher_create('BruteForce-Hamming')
+                    match = fmatcher.match(descriptors1, descriptors2)
 
-                pts1, pts2 = [], []
-                window_size = (left_image.shape[1]*2-218, left_image.shape[0])    # window_size = 1600x475
+                    pts1, pts2 = [], []
+                    window_size = (left_image.shape[1]*2-218, left_image.shape[0])    # window_size = 1600x475
         
-                for i in range(len(match)):
-                    pts1.append(keypoints1[match[i].queryIdx].pt)
-                    pts2.append(keypoints2[match[i].trainIdx].pt)
-                pts1 = np.array(pts1, dtype=np.float32)
-                pts2 = np.array(pts2, dtype=np.float32)
+                    for i in range(len(match)):
+                        pts1.append(keypoints1[match[i].queryIdx].pt)
+                        pts2.append(keypoints2[match[i].trainIdx].pt)
+                    pts1 = np.array(pts1, dtype=np.float32)
+                    pts2 = np.array(pts2, dtype=np.float32)
 
-                H, inlier_mask = cv.findHomography(pts2, pts1, cv.RANSAC)
-                print(H)
+                    H, inlier_mask = cv.findHomography(pts2, pts1, cv.RANSAC)
+                    # print(H)
                 img_merged = cv.warpPerspective(right_image, H, window_size)
-                # print(window_size)
+                    # print(window_size)
                 img_merged[:,:left_image.shape[1]] = left_image    #Copy
 
                 # camera_images = np.hstack((left_image, right_image)) 
