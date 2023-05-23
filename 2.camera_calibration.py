@@ -62,7 +62,7 @@ if __name__ == '__main__':
     # option1. record left camera3
     # input_file = 'output_l.mp4'
     # option2. record right camera3
-    input_file = 'output_r.mp4'
+    input_file = 'data/output_r.mp4'
     board_pattern = (8, 6)
     board_cellsize = 0.025
 

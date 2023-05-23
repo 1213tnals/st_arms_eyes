@@ -60,7 +60,7 @@ def show_camera():
     # option1. record left camera2
     # out = cv.VideoWriter('output_l.mp4', fourcc, 20.0, size)
     # option2. record right camera2
-    out = cv.VideoWriter('output_r.mp4', fourcc, 20.0, size)
+    out = cv.VideoWriter('data/output_r.mp4', fourcc, 20.0, size)
 
     while True:
         ret_val, frame = video_capture.read()

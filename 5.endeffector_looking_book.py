@@ -9,14 +9,9 @@ import pyrealsense2 as rs
 import numpy as np
 import cv2 as cv
 
-cover_file = 'book.jpg'
+cover_file = 'data/book.jpg'
 f, cx, cy = 1000, 320, 240
 min_inlier_num = 100
-
-# Load an image
-img_file = 'book.jpg'
-obj_img = cv.imread(img_file)      # book is 3D object image
-assert obj_img is not None, 'Cannot read the given image, ' + img_file
 
 # Configure depth and color streams
 pipeline = rs.pipeline()
@@ -69,13 +64,12 @@ while True:
     # Convert images to numpy arrays
     depth_image = np.asanyarray(depth_frame.get_data())    # depth_image = height: 480, width: 640 shape, and data is mm data
     color_image = np.asanyarray(color_frame.get_data())
-    print(depth_image[240][320])                         # center depth data
+    print(depth_image[240][320])                           # center depth data
 
     # Apply colormap on depth image (image must be converted to 8-bit per pixel first)
-    depth_colormap = cv.applyColorMap(cv.convertScaleAbs(depth_image, alpha=0.03), cv.COLORMAP_JET)
+    depth_colormap = cv.convertScaleAbs(depth_image, alpha=0.03)
     depth_colormap_dim = depth_colormap.shape
     color_colormap_dim = color_image.shape
-
 
     # Extract features and match them to the object features
     cam_keypoints, cam_descriptors = fdetector.detectAndCompute(color_image, None)
