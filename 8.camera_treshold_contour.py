@@ -9,6 +9,20 @@ import pyrealsense2 as rs
 import numpy as np
 import cv2 as cv
 
+def initialize_camera():
+    p = rs.pipeline()
+    conf = rs.config()
+    conf.enable_stream(rs.stream.accel)
+    conf.enable_stream(rs.stream.gyro)
+    prof = p.start(conf)
+    return p
+
+def gyro_data(gyro):
+    return np.asarray([gyro.x, gyro.y, gyro.z])
+
+def accel_data(accel):
+    return np.asarray([accel.x, accel.y, accel.z])
+
 # Configure depth and color streams
 pipeline = rs.pipeline()
 config = rs.config()
@@ -53,11 +67,20 @@ try:
         depth_image = np.asanyarray(depth_frame.get_data())    # depth_image = height: 480, width: 640 shape x 1, and data unit is mm data, dtype=uint16
         color_image = np.asanyarray(color_frame.get_data())    # color_image = height: 480, width: 640 shape x 3, and data is color
         # print(depth_image.dtype)
-        depth_image[depth_image > 300] = 0                     # tresholding
-        depth_image[depth_image != 0] = 1                      # binary
-        depth_image_8bit = depth_image.astype(np.uint8)
+        depth_threshold = depth_image.copy()
+        depth_threshold[depth_threshold > 300] = 0                     # tresholding
+        depth_threshold[depth_threshold != 0] = 1                      # binary
+        depth_image_8bit = depth_threshold.astype(np.uint8)
+        depth_image_8bit = cv.erode(depth_image_8bit, (5,5))
+        depth_image_8bit = cv.dilate(depth_image_8bit, (5,5))
+        depth_image_8bit = cv.blur(depth_image_8bit, (3,3))
         
         contours, hierarchy = cv.findContours(depth_image_8bit, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+
+        # biggest contour area
+        # areas = [cv.contourArea(cnt) for cnt in contours]
+        # sorted_contours = [contours[i] for i in np.argsort(areas)[::-1]]
+        # largest_contour = sorted_contours[0]
 
         # if len(contours) > 0:
         #     contour = contours[0]
@@ -71,7 +94,7 @@ try:
         if(np.sum(depth_image_8bit)!=0):
             _, labels, stats, centroids = cv.connectedComponentsWithStats(depth_image_8bit)
             depth_center_x, depth_center_y = centroids[1]
-        print("center: ({:.3f},{:.3f})".format(depth_center_x, depth_center_y))
+        # print("center: ({:.3f},{:.3f})".format(depth_center_x, depth_center_y))
         
         for i in range(color_image.shape[2]):
             color_image[:,:,i] = color_image[:,:,i]*depth_image_8bit
@@ -100,8 +123,9 @@ try:
         # Show images
         cv.namedWindow('st_arm_eyes', cv.WINDOW_AUTOSIZE)
         cv.circle(color_image, (np.uint8(depth_center_x), np.uint8(depth_center_y)), 10, (0,0,255), 3)
-        contour_image = cv.drawContours(color_image, contours, -1, (255, 0, 0), 2)
-        print(contours)
+        contour_image = cv.drawContours(color_image, contours, -1, (255, 0, 0), 1)
+        # contour_image = cv.drawContours(color_image, [largest_contour], -1, (255, 0, 0), 1)
+        # print(contours)
         cv.imshow('st_arm_eyes', contour_image)
         
         # This also acts as
