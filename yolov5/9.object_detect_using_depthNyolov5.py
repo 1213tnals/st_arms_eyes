@@ -170,6 +170,7 @@ def run():
         keyCode = cv.waitKey(30) & 0xFF
         # Stop the program on the ESC key
         if keyCode == 27:
+            
             break
 
 if __name__ == '__main__':

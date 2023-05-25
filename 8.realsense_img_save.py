@@ -33,6 +33,8 @@ config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
 pipeline.start(config)
 
 try:
+    img_count = 0
+
     while True:
         # Wait for a coherent pair of frames: depth and color
         frames = pipeline.wait_for_frames()
@@ -44,7 +46,7 @@ try:
         # Convert images to numpy arrays
         depth_image = np.asanyarray(depth_frame.get_data())    # depth_image = height: 480, width: 640 shape, and data unit is mm data
         color_image = np.asanyarray(color_frame.get_data())
-        depth_image[depth_image > 300] = 0                     # tresholding
+        # depth_image[depth_image > 300] = 0                     # tresholding
         # depth_image[depth_image != 0] = 1                      # binary
         # Apply colormap on depth image (image must be converted to 8-bit per pixel first)
         depth_colormap = cv.applyColorMap(cv.convertScaleAbs(depth_image, alpha=0.03), cv.COLORMAP_JET)
@@ -54,15 +56,17 @@ try:
 
         # Show images
         cv.namedWindow('st_arm_eyes', cv.WINDOW_AUTOSIZE)
-        cv.imshow('st_arm_eyes', depth_colormap)
+        cv.imshow('st_arm_eyes', color_image)
         
         # This also acts as
         keyCode = cv.waitKey(30) & 0xFF
         # Stop the program on the ESC key
         if keyCode == 13:
-            cv.imwrite('depth3.png', depth_colormap)
-            print("save!")
-        if keyCode == 27:
+            cv.imwrite(f"captured_img/img{img_count}.png", color_image)
+            # cv.imwrite('depth{img_count}.png', depth_colormap)
+            print(f"save!: {img_count}")
+            img_count += 1
+        elif keyCode == 27:
             break
 
 finally:
