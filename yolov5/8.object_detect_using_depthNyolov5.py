@@ -92,35 +92,48 @@ def run():
         if not depth_frame or not color_frame:
             continue
 
-        img = np.asanyarray(color_frame.get_data())
+        color_image = np.asanyarray(color_frame.get_data())
         depth_image = np.asanyarray(depth_frame.get_data())
 
+        depth_threshold = depth_image.copy()
+        depth_threshold[depth_threshold > 300] = 0                     # tresholding
+        depth_threshold[depth_threshold < 200] = 0
+        depth_threshold[depth_threshold != 0] = 1                      # binary
+        depth_image_8bit = depth_threshold.astype(np.uint8)
+        depth_image_8bit = cv.erode(depth_image_8bit, (5,5))
+        depth_image_8bit = cv.dilate(depth_image_8bit, (5,5))
+        depth_image_8bit = cv.blur(depth_image_8bit, (3,3))
+
+        for i in range(color_image.shape[2]):
+            color_image[:,:,i] = color_image[:,:,i]*depth_image_8bit
+
+
         # check for common shapes
-        s = np.stack([letterbox(x, imgsz, stride=stride)[0].shape for x in img], 0)  # shapes
+        s = np.stack([letterbox(x, imgsz, stride=stride)[0].shape for x in color_image], 0)  # shapes
         rect = np.unique(s, axis=0).shape[0] == 1  # rect inference if all shapes equal
         if not rect:
             print('WARNING: Different stream shapes detected. For optimal performance supply similarly-shaped streams.')
 
         # Letterbox
-        img0 = img.copy()
-        img = img[np.newaxis, :, :, :]        
+        color_image_copy = color_image.copy()
+        color_image = color_image[np.newaxis, :, :, :]        
 
         # Stack
-        img = np.stack(img, 0)
+        color_image = np.stack(color_image, 0)
 
         # Convert
-        img = img[..., ::-1].transpose((0, 3, 1, 2))  # BGR to RGB, BHWC to BCHW
-        img = np.ascontiguousarray(img)
+        color_image = color_image[..., ::-1].transpose((0, 3, 1, 2))  # BGR to RGB, BHWC to BCHW
+        color_image = np.ascontiguousarray(color_image)
 
-        img = torch.from_numpy(img).to(device)
-        img = img.half() if half else img.float()  # uint8 to fp16/32
-        img /= 255.0  # 0 - 255 to 0.0 - 1.0
-        if img.ndimension() == 3:
-            img = img.unsqueeze(0)
+        color_image = torch.from_numpy(color_image).to(device)
+        color_image = color_image.half() if half else color_image.float()  # uint8 to fp16/32
+        color_image /= 255.0  # 0 - 255 to 0.0 - 1.0
+        if color_image.ndimension() == 3:
+            color_image = color_image.unsqueeze(0)
 
         # Inference
         t1 = time_sync()
-        pred = model(img, augment=augment,
+        pred = model(color_image, augment=augment,
                      visualize=increment_path(save_dir / 'features', mkdir=True) if visualize else False)[0]
 
         # Apply NMS
@@ -129,16 +142,16 @@ def run():
 
         # Apply Classifier
         if classify:
-            pred = apply_classifier(pred, modelc, img, img0)
+            pred = apply_classifier(pred, modelc, color_image, color_image_copy)
 
         # Process detections
         for i, det in enumerate(pred):  # detections per image
             s = f'{i}: '
-            s += '%gx%g ' % img.shape[2:]  # print string
-            annotator = Annotator(img0, line_width=line_thickness, example=str(names))
+            s += '%gx%g ' % color_image.shape[2:]  # print string
+            annotator = Annotator(color_image_copy, line_width=line_thickness, example=str(names))
             if len(det):
-                # Rescale boxes from img_size to im0 size
-                det[:, :4] = scale_coords(img.shape[2:], det[:, :4], img0.shape).round()
+                # Rescale boxes from color_image to im0 size
+                det[:, :4] = scale_coords(color_image.shape[2:], det[:, :4], color_image_copy.shape).round()
 
                 # Print results
                 for c in det[:, -1].unique():
@@ -150,12 +163,14 @@ def run():
                     label = None if hide_labels else (names[c] if hide_conf else f'{names[c]} {conf:.2f}')
                     annotator.box_label(xyxy, label, color=colors(c, True))
 
-        cv.imshow("IMAGE", img0)
-        depth_colormap = cv.applyColorMap(cv.convertScaleAbs(depth_image, alpha=0.08), cv.COLORMAP_JET)
-        cv.imshow("DEPTH", depth_colormap)
+        cv.imshow("st_arm_eyes", color_image_copy)
+        # depth_colormap = cv.applyColorMap(cv.convertScaleAbs(depth_image, alpha=0.03), cv.COLORMAP_JET)
+        # cv.imshow("DEPTH", depth_image_8bit)
 
-        if cv.waitKey(1) & 0xFF == ord('q'):
-            break  
+        keyCode = cv.waitKey(30) & 0xFF
+        # Stop the program on the ESC key
+        if keyCode == 27:
+            break
 
 if __name__ == '__main__':
     run()
