@@ -170,7 +170,7 @@ def run_cameras():
         cv.namedWindow(window_title, cv.WINDOW_AUTOSIZE)
 
         try:
-            count = 0
+            rematch = False
 
             while True:
                 # get origin camera data
@@ -215,7 +215,7 @@ def run_cameras():
                 x,y,w_r,h_r = roi_r
                 right_image = right_image[y:y+h_r, x:x+w_r]
 
-                if(count==0):
+                if(rematch==False):
                     # get feature points to realtime camera image stitching
                     brisk = cv.BRISK_create()
 
@@ -225,7 +225,7 @@ def run_cameras():
 
                     keypoints1, descriptors1 = brisk.detectAndCompute(left_image, None)
                     keypoints2, descriptors2 = brisk.detectAndCompute(right_image, None)
-                    count+=1              
+                    rematch = True           
 
                     fmatcher = cv.DescriptorMatcher_create('BruteForce-Hamming')
                     match = fmatcher.match(descriptors1, descriptors2)
@@ -260,6 +260,8 @@ def run_cameras():
                 # Stop the program on the ESC key
                 if keyCode == 27:
                     break
+                elif keyCode == ord('\r'):
+                    rematch = False
         finally:
 
             left_camera.stop()
