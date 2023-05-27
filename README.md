@@ -149,17 +149,18 @@ RGBD 카메라는 두 개의 카메라를 조합하여 얻은 Depth 정보를 �
 # 2. 전체 영상 보기 및 실제 로봇과 작동   
 
 ![st_arms_eyes](readme_img/st_arms_eyes.gif)   
-[유튜브를 통해서 작동 전체 영상보기](https://youtu.be/r5T2MlfNaQg)   
+### [유튜브를 통해서 작동 전체 영상보기](https://youtu.be/r5T2MlfNaQg)   
 -타임라인-
 실제 로봇만 보기: [06:35](https://www.youtube.com/watch?v=r5T2MlfNaQg&t=395s)  
 00:15~06:35 는 코드 작동으로 나오는 화면 녹화영상입니다.   
    
 ### 텀프로젝트를 마치며
 최근 로봇분야를 배우기 시작하면서 기존부터 관심 갖고 있던 컴퓨터 비전을 로봇에 적용해보고 싶었음. 현재 캡스톤 디자인으로 진행하고 있는 로봇이 카메라로 실시간 스트리밍만 하고 있었기 때문에 이 카메라를 잘 활용하여 로봇이 카메라를 통해서 주변을 인식할 수 있게 하고 싶었음. 이전의 **[커피 로봇](https://github.com/1213tnals/MobileCoffeeMachineControl-by-Handcontrolling)**에서는 단순히 왼쪽 모터를 돌린다/오른쪽 모터를 돌린다 의 방식이었기 때문에 실제 로봇을 직접 움직일 수 있었지만, 로봇팔의 경우 제어하기 위해 구성해야할 것이 많아 이 프로젝트에서는 중력보상을 사용하여 로봇이 마지막 자세를 유지하게 하고 그 때의 결과를 화면으로만 보게 한 것이 아쉬움. 하지만 텀프로젝트 기간 이후에 이것이 가능하도록 할 예정.   
+
    
 ### 참고한 오픈소스   
 라이선스: Apache License Version 2.0, Apache License Version 3.0 - yolov5    
 https://github.com/jetsonhacks/CSI-Camera   
 https://github.com/IntelRealSense/librealsense      
 https://github.com/ultralytics/yolov5   
-https://github.com/mint-lab/cv_tutorial   
+https://github.com/mint-lab/cv_tutorial :star:   
