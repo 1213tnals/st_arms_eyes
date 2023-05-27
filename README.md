@@ -5,7 +5,7 @@ This is st_arms_eyes repository. I will put eyes on st_arm_prime which is myproj
 &nbsp;
 
 <details>
-<summary>텀프로젝트 제안(당시에 정했던 목표) 내용</summary>
+  <summary>텀프로젝트 제안(당시에 정했던 목표) 내용</summary>
 
 
 ![st_arm_prime](readme_img/st_arm_prime.jpg)  
