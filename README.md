@@ -3,14 +3,15 @@ This is st_arms_eyes repository. I will put eyes on st_arm_prime which is myproj
    
 ![st_arm_prime](readme_img/st_arm_prime.jpg)   
 &nbsp;
-  이 로봇은 ST_Arm_Prime으로 기존에 개발중이던 ST_Arm v1,2,3 에서 베이스를 메카넘휠로 바꾸어 9Dof 구조를 가진 모바일 로봇입니다.   
- 
-   캡스톤 디자인을 위해서 사용되고 있으며 현재까지 구축된 로봇은 [구르반](https://github.com/palwanishan), [이진우](https://github.com/ok701) 선배님으로부터 개발된 Task Space PD 제어로 제어되는 매니퓰레이터입니다. 또한 이에 사용되는 GUI는 VR장비를 통해서 Unity의 디지털 트윈 로봇을 보며 제어가 가능합니다. 기존의 GUI에서는 CSI 카메라와 리얼센스 카메라로부터 오는 정보를 그대로 읽어왔으나(가공을 거치지 않은 생 데이터를 C++ 기반의 패키지를 통해서 ROS로 읽어옴) 해당 부분을 수업에서 배운 Python을 사용한 컴퓨터 비전을 통해서 가공된 이미지로 제어에 영향을 줄 수 있도록 하고자 했습니다.   
 
+  이 로봇은 ST_Arm_Prime으로 기존에 개발중이던 ST_Arm v1,2,3 에서 베이스를 메카넘휠로 바꾸어 9Dof 구조를 가진 모바일 로봇입니다. 캡스톤 디자인을 위해서 사용되고 있으며 현재까지 구축된 로봇은 [구르반](https://github.com/palwanishan), [이진우](https://github.com/ok701) 선배님으로부터 개발된 Task Space PD 제어로 제어되는 매니퓰레이터입니다.
+  
+    또한 이에 사용되는 GUI는 VR장비를 통해서 Unity의 디지털 트윈 로봇을 보며 제어가 가능합니다. 기존의 GUI에서는 CSI 카메라와 리얼센스 카메라로부터 오는 정보를 그대로 읽어왔으나(가공을 거치지 않은 생 데이터를 C++ 기반의 패키지를 통해서 ROS로 읽어옴) 해당 부분을 수업에서 배운 Python을 사용한 컴퓨터 비전을 통해서 가공된 이미지로 제어에 영향을 줄 수 있도록 하고자 했습니다.   
 
+&nbsp;
 <details>
     <summary>텀프로젝트 제안(당시에 정했던 목표) 내용</summary>
-&nbsp;
+&nbsp; &nbsp;
    
 ## 텀프로젝트 이름: st_arms_eyes(st_arm 로봇의 눈 만들어주기)
 ## 텀프로젝트 소개:     
