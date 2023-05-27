@@ -149,7 +149,7 @@ RGBD 카메라는 두 개의 카메라를 조합하여 얻은 Depth 정보를 �
 ### :three: 9.object_detect_using_depthNyolov5.py   
 ![yolo_depth](readme_img/yolo_depth.png)   
 ![9.object_detect_using_depthNyolov5.py](readme_img/rec_9.gif)   
-이 코드는 **[yolov5](https://github.com/ultralytics/yolov5)**를 사용하여 학습된 이미지를 인식합니다. 이때 엉뚱한 물체를 인식하는 것을 줄이기 위해 RGBD 카메라의 장점을 살려, <span style='background-color:#fff5b1'>**설정한 Depth 인지 거리 내에서만 물체를 인식**</span>할 수 있도록 6.에서 사용한 RGB 이미지의 필터링을 사용하였습니다. 이를 통해 엔드 이펙터의 카메라가 원하는 물체만 인식하게 하는 것이 조금 더 안전하게 작동합니다. 라벨링은 **labelimg** 라는 툴을 사용하였습니다.   
+이 코드는 **[yolov5](https://github.com/ultralytics/yolov5)** 를 사용하여 학습된 이미지를 인식합니다. 이때 엉뚱한 물체를 인식하는 것을 줄이기 위해 RGBD 카메라의 장점을 살려, <span style='background-color:#fff5b1'>**설정한 Depth 인지 거리 내에서만 물체를 인식**</span>할 수 있도록 6.에서 사용한 RGB 이미지의 필터링을 사용하였습니다. 이를 통해 엔드 이펙터의 카메라가 원하는 물체만 인식하게 하는 것이 조금 더 안전하게 작동합니다. 라벨링은 **labelimg** 라는 툴을 사용하였습니다.   
 &nbsp; &nbsp;
 
 
