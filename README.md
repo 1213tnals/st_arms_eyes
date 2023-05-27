@@ -79,6 +79,7 @@ _______________________________________________
 
 &nbsp;
 ### :four: 3.realtime_camera_stitching.py   
+![image_stitching.png](readme_img/image_stitching.png)   
 ![3.realtime_camera_stitching.py](readme_img/rec_3.gif)   
 이 코드는 카메라의 왜곡을 보완하여 얻은 두 개의 카메라 이미지로부터 **RANSAC**을 통해 <span style="color:#008000">**H**</span>(왼쪽 카메라 이미지에 대한 오른쪽 카메라 이미지의 이미지 변환행렬)을 얻어 <span style='background-color:#fff5b1'>실시간으로 스트리밍 되는 이미지를 연결</span>해줍니다. 실시간으로 H를 반복하여 구할 경우 연산 증가로 인해 딜레이가 심하게 발생하기 때문에 ***처음에만 H를 얻고 이후에는 이때 구한 H를 기반으로 이미지를 스티칭*** 합니다. 하지만 H가 잘 구해지지 못했을 경우 사용자는 ***엔터를 눌러서 H를 다시 구할 수 있습니다.***
 
@@ -93,6 +94,7 @@ RGBD 카메라는 두 개의 카메라를 조합하여 얻은 Depth 정보를 �
 
 &nbsp;
 ### :one: endeffector_camera.py   
+![realsense](readme_img/realsense.png)   
 ![endeffector_camera.py](readme_img/rec_eecam.gif)   
 이 코드는 엔드이펙터에서 사용하는 realsense D435i 카메라를 사용하기 위한 코드입니다. Intel realsense에서 제공하는 realsense SDK를 통해서 인식한 카메라를 <span style="color:#0000FF">**pyrealsense2**</span> 패키지를 사용하여 카메라의 이미지를 읽어오는 방식으로 작동합니다. 왼쪽이는 카메라가 읽어온 RGB 이미지, 오른쪽에는 카메라가 읽어온 Depth 이미지를 확인할 수 있습니다.    
 이는 realsense에서 제공해준 [예시코드](https://github.com/IntelRealSense/librealsense/tree/master/wrappers/python/examples)를 기반으로 하였습니다.
@@ -117,6 +119,7 @@ RGBD 카메라는 두 개의 카메라를 조합하여 얻은 Depth 정보를 �
    
 엔드 이펙터의 카메라가 체커보드의 중앙에 평행하게 위치하기 원할 경우 **오차인 <span style='background-color:#fff5b1'>e</span>(<span style="color:#0000FF">ref_X{:참조 포즈} - act_X{실제 포즈}</span>)**에 **상수 K를 곱**하여 힘을 발생할 수 있습니다.  **F=KX**   
 엔드 이펙터가 움직일 때를 두가지 단계(1. XY 평면내에서의 움직임-x,y,roll / 2. Z방향을 고려한 움직임-z,pitch,yaw)로 나누었습니다. 따라서 이를 위한 오차 e를 로봇에 넣어주기 위한 코드이며, 사용자는 ***이미지의 왼쪽 위에 나오는 데이터를 통해서 추종하고자 하는 자세와 얼만큼의 오차가 발생하고 있는지*** **xyz, rpy(roll,pitch,yaw)에 대한 오차를 확인**할 수 있으며, ***이미지의 왼쪽 아래에 나타나는 데이터를 통해서 엔드 이펙터가 1,2단계 중 어떤 단계를 수행해야하는지를 알 수 있습니다.***   
+![pose_error](readme_img/pose_error.png)   
    
 여기서 오차를 만드는 과정에 있어, 카메라의 좌표와 이미지의 좌표를 바꿀 필요가 있었습니다. 따라서 이를 위해서 아래의 이미지와 같이 ***축방향의 값을 변환*** 하여 오차의 값으로 정상적으로 생성할 수 있도록 하는 함수를 사용하였습니다. 이때 출력된 값은 rad에서 deg 단위로 변환한 함수를 거친 값입니다.   
 ![chang_axis](readme_img/change_axis.png)   
@@ -141,6 +144,7 @@ RGBD 카메라는 두 개의 카메라를 조합하여 얻은 Depth 정보를 �
 
 &nbsp;
 ### :three: 9.object_detect_using_depthNyolov5.py   
+![yolo_depth](readme_img/yolo_depth.png)   
 ![9.object_detect_using_depthNyolov5.py](readme_img/rec_9.gif)   
 이 코드는 **[yolov5](https://github.com/ultralytics/yolov5)**를 사용하여 학습된 이미지를 인식합니다. 이때 엉뚱한 물체를 인식하는 것을 줄이기 위해 RGBD 카메라의 장점을 살려, <span style='background-color:#fff5b1'>**설정한 Depth 인지 거리 내에서만 물체를 인식**</span>할 수 있도록 6.에서 사용한 RGB 이미지의 필터링을 사용하였습니다. 이를 통해 엔드 이펙터의 카메라가 원하는 물체만 인식하게 하는 것이 조금 더 안전하게 작동합니다. 라벨링은 **labelimg** 라는 툴을 사용하였습니다.   
 &nbsp; &nbsp;
