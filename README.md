@@ -82,7 +82,9 @@ _______________________________________________
 ![image_stitching.png](readme_img/image_stitching.png)   
 ![3.realtime_camera_stitching.py](readme_img/rec_3.gif)   
 이 코드는 카메라의 왜곡을 보완하여 얻은 두 개의 카메라 이미지로부터 **RANSAC**을 통해 <span style="color:#008000">**H**</span>(왼쪽 카메라 이미지에 대한 오른쪽 카메라 이미지의 이미지 변환행렬)을 얻어 <span style='background-color:#fff5b1'>실시간으로 스트리밍 되는 이미지를 연결</span>해줍니다. 실시간으로 H를 반복하여 구할 경우 연산 증가로 인해 딜레이가 심하게 발생하기 때문에 ***처음에만 H를 얻고 이후에는 이때 구한 H를 기반으로 이미지를 스티칭*** 합니다. 하지만 H가 잘 구해지지 못했을 경우 사용자는 ***엔터를 눌러서 H를 다시 구할 수 있습니다.***
-
+   
+![camera_holder](readme_img/camera_holder.png)   
+이 리포지토리를 보신 분들 중에 동일한 조건으로 사용하실 분들은 cad 폴더에 있는 camera_holder 파일을 사용하시면 됩니다.   
 
 &nbsp; &nbsp;
 ## 2) 실시간 카메라 위치 인지 및 자세 유지를 위한 오차 판단 :cat:   
