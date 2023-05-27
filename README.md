@@ -62,7 +62,8 @@ _______________________________________________
 &nbsp;
 ### :one: 1.rec_video.py   
 ![1.rec_video.py](readme_img/rec_1.gif)   
-이 코드는 gstreamer를 통해서 젯슨에 연결된 CSI 카메라로 획득한 이미지를 읽어옵니다. 읽어온 이미지는 imwrite를 통해서 ***output_l.mp4, output_r.mp4로 저장*** 합니다. 이는 [JetsonHacksNano](https://github.com/JetsonHacksNano/CSI-Camera)가 제작한 CSI 카메라 연결코드를 기반으로 하였습니다.
+이 코드는 gstreamer를 통해서 젯슨에 연결된 CSI 카메라로 획득한 이미지를 읽어옵니다. 읽어온 이미지는 imwrite를 통해서 ***output_l.mp4, output_r.mp4로 저장*** 합니다.    
+이는 [JetsonHacksNano](https://github.com/JetsonHacksNano/CSI-Camera)가 제작한 CSI 카메라 연결코드를 기반으로 하였습니다.
 &nbsp;
 
 &nbsp;
@@ -93,7 +94,8 @@ RGBD 카메라는 두 개의 카메라를 조합하여 얻은 Depth 정보를 �
 &nbsp;
 ### :one: endeffector_camera.py   
 ![endeffector_camera.py](readme_img/rec_eecam.gif)   
-이 코드는 엔드이펙터에서 사용하는 realsense D435i 카메라를 사용하기 위한 코드입니다. Intel realsense에서 제공하는 realsense SDK를 통해서 인식한 카메라를 <span style="color:#0000FF">**pyrealsense2**</span> 패키지를 사용하여 카메라의 이미지를 읽어오는 방식으로 작동합니다. 왼쪽이는 카메라가 읽어온 RGB 이미지, 오른쪽에는 카메라가 읽어온 Depth 이미지를 확인할 수 있습니다. 이는 realsense에서 제공해준 [예시코드](https://github.com/IntelRealSense/librealsense/tree/master/wrappers/python/examples)를 기반으로 하였습니다.
+이 코드는 엔드이펙터에서 사용하는 realsense D435i 카메라를 사용하기 위한 코드입니다. Intel realsense에서 제공하는 realsense SDK를 통해서 인식한 카메라를 <span style="color:#0000FF">**pyrealsense2**</span> 패키지를 사용하여 카메라의 이미지를 읽어오는 방식으로 작동합니다. 왼쪽이는 카메라가 읽어온 RGB 이미지, 오른쪽에는 카메라가 읽어온 Depth 이미지를 확인할 수 있습니다.    
+이는 realsense에서 제공해준 [예시코드](https://github.com/IntelRealSense/librealsense/tree/master/wrappers/python/examples)를 기반으로 하였습니다.
 &nbsp;
 
 &nbsp;
