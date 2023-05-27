@@ -1,4 +1,4 @@
-# st_arms_eyes   
+# st_arms_eyes :eyes:    
 This is st_arms_eyes repository. I will put eyes on st_arm_prime which is myproject robot_arm with this project.(STECH 4-1 computer_vision project)   
 _______________________________________________
 <span style="color:red">Readme에 설명을 위한 gif 파일의 크기로 인해 이 리포지토리의 무게가 다소 무거워졌습니다. 이 리포지토리를 사용하신다면 readme_img 파일은 삭제하시는 것을 추천드립니다.</span>   
@@ -33,7 +33,7 @@ VR기반의 모바일 로봇는 가상 공간에 있는 디지털 트윈 로봇�
 </details>
 
 &nbsp; &nbsp; &nbsp; &nbsp;
-# "st_arms_eyes :eyes: " 리포지토리 설명   
+# 1. "st_arms_eyes :eyes: " 리포지토리 설명   
 이 리포지토리에는 <span style='background-color:#fff5b1'>***2개의 CSI 카메라와 1개의 리얼센스 카메라***</span>(RGB, Depth 이미지와 imu, gyro의 데이터(하지만 이 리포지토리에서 이미지와 가속도 센서를 동시 연결을 성공하지 못했습니다)를 사용하여 크게 다음의 내용을 담고 있습니다.   
 - **1) 실시간 이미지 스티칭**   
 - **2) 실시간 카메라 위치 인지 및 자세 유지를 위한 참조(Ref) 위치와의 오차 판단**   
@@ -61,8 +61,6 @@ VR기반의 모바일 로봇는 가상 공간에 있는 디지털 트윈 로봇�
 &nbsp;
 ### :three: dual_camera_no_distrotion.py   
 ![dual_camera_no_distrotion.py](readme_img/rec_no_distortion.gif)   
-&nbsp;
-
 이 코드는 2. 를 통해서 얻은 카메라 정보를 기반으로 왜곡을 제거한 뒤, 2개의 CSI 카메라로 부터 얻어온 이미지를 가로로 연결하여 보여줍니다. 카메라의 왜곡을 없앴기 때문이 이미지의 외곽선이 변형되어있으며 빈공간은 검은 영역으로 나타나게 됩니다.   (1~3 과정에서 크게 필요는 없지만 카메라 렌즈에 불순물이 붙는 등의 일로 인해 3.에서 실시간 카메라 이미지 스티칭이 잘 수행이 되지 않을 때 디버깅을 위해서 생성한 코드입니다)
 &nbsp;
 
@@ -122,3 +120,7 @@ RGBD 카메라는 두 개의 카메라를 조합하여 얻은 Depth 정보를 �
 ![9.object_detect_using_depthNyolov5.py](readme_img/rec_9.gif)   
 이 코드는 yolov5를 사용하여 학습된 이미지를 인식합니다. 이때 엉뚱한 물체를 인식하는 것을 줄이기 위해 RGBD 카메라의 장점을 살려, <span style='background-color:#fff5b1'>**설정한 Depth 인지 거리 내에서만 물체를 인식**</span>할 수 있도록 6.에서 사용한 RGB 이미지의 필터링을 사용하였습니다. 이를 통해 엔드 이펙터의 카메라가 원하는 물체만 인식하게 하는 것이 조금 더 안전하게 작동합니다.
 &nbsp; &nbsp;
+
+
+
+# 2. 전체 영상 보기 및 실제 로봇과 작동   
