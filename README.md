@@ -30,7 +30,7 @@ VR기반의 모바일 로봇는 가상 공간에 있는 디지털 트윈 로봇�
 &nbsp; &nbsp;
 </details>
 
-
+&nbsp; &nbsp;
 # 리포지토리 설명   
 이 리포지토리에는 2개의 CSI와 1개의 리얼센스 카메라(RGB, Depth 이미지와 imu, gyro의 데이터(하지만 이 리포지토리에서 이미지와 가속도 센서를 동시 연결을 성공하지 못했습니다)를 사용하여 크게 다음의 내용을 담고 있습니다.   
 - **1) 실시간 이미지 스티칭**   
@@ -38,7 +38,7 @@ VR기반의 모바일 로봇는 가상 공간에 있는 디지털 트윈 로봇�
 - **3) 객체 인식(엔드 이펙터를 통해 잡고자 하는 물체를 인식)**
 
 
-&nbsp; &nbsp;
+&nbsp;
 ## 1) 실시간 이미지 스티칭   
 여기에서 사용되는 코드는 **1.rec_video.py**, **2.camera_calibration.py**, **3.realtime_camera_stitching.py**, **dual_camera_no_distortion.py** 입니다.
 
@@ -48,16 +48,16 @@ VR기반의 모바일 로봇는 가상 공간에 있는 디지털 트윈 로봇�
 ![1.rec_video.py](readme_img/rec_1.gif)   
 **1.rec_video.py**   
 이 코드는 gstreamer를 통해서 젯슨에 연결된 CSI 카메라로 획득한 이미지를 읽어옵니다. 읽어온 이미지는 imwrite를 통해서 output_l.mp4, output_r.mp4로 저장합니다.   
-&nbsp;
+&nbsp; &nbsp;
 
 **2.camera_calibration.py**   
 이 코드는 1. 을 통해서 저장한 영상들을 읽어오고 읽어온 영상을 사용하여 체커보드(체스보드)에서 특징점을 추출함으로써 카메라의 왜곡 정보를 얻어옵니다.   
-&nbsp;
+&nbsp; &nbsp;
 
 ![dual_camera_no_distrotion.py](readme_img/rec_no_distortion.gif)   
 **dual_camera_no_distrotion.py**   
 이 코드는 2. 를 통해서 얻은 카메라 정보를 기반으로 왜곡을 제거한 뒤, 2개의 CSI 카메라로 부터 얻어온 이미지를 가로로 연결하여 보여줍니다. 카메라의 왜곡을 없앴기 때문이 이미지의 외곽선이 변형되어있으며 빈공간은 검은 영역으로 나타나게 됩니다.   (1~3 과정에서 크게 필요는 없지만 카메라 렌즈에 불순물이 붙는 등의 일로 인해 3.에서 실시간 카메라 이미지 스티칭이 잘 수행이 되지 않을 때 디버깅을 위해서 생성한 코드입니다)   
-&nbsp;
+&nbsp; &nbsp;
 
 ![3.realtime_camera_stitching.py](readme_img/rec_3.gif)   
 **3.realtime_camera_stitching.py**   
@@ -72,17 +72,17 @@ RGBD 카메라는 두 개의 카메라를 조합하여 얻은 Depth 정보를 �
 ![endeffector_camera.py](readme_img/rec_eecam.gif)   
 **endeffector_camera.py**
 이 코드는 엔드이펙터에서 사용하는 realsense D435i 카메라를 사용하기 위한 코드입니다. intel realsense에서 제공하는 realsense SDK를 통해서 인식한 카메라를 pyrealsense2 패키지를 사용하여 카메라의 이미지를 읽어오는 방식으로 작동합니다. 왼쪽이는 카메라가 읽어온 RGB 이미지, 오른쪽에는 카메라가 읽어온 Depth 이미지를 확인할 수 있습니다.   
-&nbsp;
+&nbsp; &nbsp;
 
 ![endeffector_camera_imu.py](readme_img/rec_eecam_imu.gif)   
 **endeffector_camera_imu.py**
-이 코드는 엔드이펙터에서 사용하는 realsense D435i 카메라에서 imu 정보를 얻어오는 코드입니다. RGBD 데이터를 동시에 사용하는 법을 아직 찾지 못하였고, 이후에 이 데이터를 가공(위치, 속도로 누적 및 오차 누적 필터링)하기에는 시간이 부족할 것이라 판단하여 만들기만 하고 사용하지 않았습니다.
-&nbsp;
+이 코드는 엔드이펙터에서 사용하는 realsense D435i 카메라에서 imu 정보를 얻어오는 코드입니다. RGBD 데이터를 동시에 사용하는 법을 아직 찾지 못하였고, 이후에 이 데이터를 가공(위치, 속도로 누적 및 오차 누적 필터링)하기에는 시간이 부족할 것이라 판단하여 만들기만 하고 사용하지 않았습니다.   
+&nbsp; &nbsp;
 
 ![4.endeffector_looking_book.py](readme_img/rec_4.gif)   
 **4.endeffector_looking_book.py**   
 [mini_AR_magicalzone](https://github.com/1213tnals/mini_AR_magicalzone)을 진행한 것을 바탕으로 카메라 및 AR 이미지의 자세를 알고자 만들어졌습니다. 잡고자 하는 물체가 있는 환경에서 찾은 점들을 통해서 엔드 이펙터가 그 위치를 따라가고자 할 때 보고 있는 방향이 달라지더라도 박스의 위치를 알 수 있게 하고자 하였습니다. 하지만 카메라가 이동하여 물체에 반사된 빛을 받거나 그림자가 생기거나, 특징정을 잃게 되면 AR 이미지가 사라지기 때문에 다른 방법이 필요해졌습니다.   
-&nbsp;
+&nbsp; &nbsp;
 
 ![5.find_endeffecor_pose_error.py](readme_img/rec_5_1.gif)   
 **5.find_endeffecor_pose_error.py**   
@@ -95,13 +95,14 @@ RGBD 카메라는 두 개의 카메라를 조합하여 얻은 Depth 정보를 �
 ![6.camera_treshold_contour.py](readme_img/rec_6.gif)   
 **6.camera_treshold_contour.py**   
 이 코드는 뎁스 카메라를 통해서 20cm~30cm(D435i 카메라는 20cm 이내의 이미지는 잘 인식 못함, 코드를 통해 최대거리를 30cm로 제한) 떨어진 범위로 treshold한 Depth 이미지를 이진화 하여 이를 가중치 행렬로 사용하고 RGB 이미지에 가중치를 곱함으로써 해당 깊이에 대한 RGB 이미지만 뽑아 보여줍니다. RGB 이미지만 잘 보이게 하기 위해서 컨투어를 따서 파란선으로 표시하였으며 뎁스 이미지로 이진화한 데이터의 경계가 다소 거친 부분이 있어 erode와 dilate로 노이즈를 제거하고 blur를 통해서 외곽을 조금 부드럽게 변경하였습니다. 하지만 RGB 카메라 이미지와 Depth 카메라 이미지의 중심점이 동일하지 않아 물체가 다소 깔끔하게 인식되지 못한 문제가 있었습니다. 이 코드를 통해서 학습이 되어있지 않은, "순수 unknown인 물체도 잘 인식해서 물체를 인지할 수 있게 하자" 였지만 뎁스를 그대로 사용할 경우 책상을 함께 인식해버리는 등의 문제가 발생하였기 때문에 이 코드는 이후 객체 인식 알고리즘을 사용한 딥러닝 방식 중 하나인 yolov5를 사용하는 것으로 넘어가게 되었습니다.   
-&nbsp;
+&nbsp; &nbsp;
 
 ![8.realsense_img_save.py](readme_img/rec_8.gif)   
 **8.realsense_img_save.py**   
 이 코드는 yolov5 사용하기 위해 학습할 이미지를 생성하는 코드입니다. 다른 카메라를 사용하여 촬영하기보다 사용할 엔드 이펙터의 카메라로 이미지를 뽑아 라벨링을 하는 것이 좋다고 판단하여 이 코드를 만들어 사용하였습니다. 사용자는 원하는 위치로 카메라를 위치시키고 엔터를 반복적으로 누르면 1,2,3, ..., n 장의 카메라를 반복해서 저장할 수 있습니다. 마지막으로 esc를 누르게 되면 사진 저장은 종료되며, 다시 사용할 경우 count가 0부터 시작하므로 기존에 촬영한 이미지가 지워질 수 있으니 주의바랍니다.   
-&nbsp;
+&nbsp; &nbsp;
 
 ![9.object_detect_using_depthNyolov5.py](readme_img/rec_9.gif)   
 **9.object_detect_using_depthNyolov5.py**   
 이 코드는 yolov5를 사용하여 학습된 이미지를 인식합니다. 이때 엉뚱한 물체를 인식하는 것을 줄이기 위해 RGBD 카메라의 장점을 살려, 설정한 Depth 인지 거리 내에서만 물체를 인식할 수 있도록 6.에서 사용한 RGB 이미지의 필터링을 사용하였습니다. 이를 통해 엔드 이펙터의 카메라가 원하는 물체만 인식하게 하는 것이 조금 더 안전하게 작동합니다.   
+&nbsp; &nbsp;
