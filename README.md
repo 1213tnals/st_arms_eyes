@@ -12,6 +12,7 @@ This is st_arms_eyes repository. I will put eyes on st_arm_prime which is myproj
 <summary>텀프로젝트 제안(당시에 정했던 목표) 내용</summary>
    
 ## 텀프로젝트 이름: st_arms_eyes(st_arm 로봇의 눈 만들어주기)
+&nbsp;
 ## 텀프로젝트 소개:     
 현재 캡스톤디자인으로 VR로 제어하는 모바일 매니퓰레이터를 설계 및 제어를 진행하고 있습니다. 현재 제작한 로봇의 이름은 **st_arm_prime(st_arm_vMM)** 이며, 컴퓨터비전 과목 텀프로젝트를 진행하며 이 로봇에 눈을 달아주고자 합니다.(로봇에 달린 카메라를 통해 사용자가 편리하게 원격지의 로봇을 작동시킬 수 있도록 하고자 합니다.)   
    
