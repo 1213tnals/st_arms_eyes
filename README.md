@@ -30,12 +30,16 @@ VR기반의 모바일 로봇는 가상 공간에 있는 디지털 트윈 로봇�
 
 
 # 리포지토리 설명   
-이 리포지토리에는 2개의 CSI와 1개의 리얼센스 카메라(RGB, Depth 이미지와 imu, gyro의 데이터(하지만 이 리포지토리에서 이미지와 가속도 센서를 동시 연결을 성공하지 못했습니다)를 사용하여 크게 **1) 실시간 이미지 스티칭**, **2) 실시간 카메라 위치 인지 및 자세 유지를 위한 참조(Ref) 위치와의 오차 판단**, **3) 객체 인식(엔드 이펙터를 통해 잡고자 하는 물체를 인식)**을 담고 있습니다.   
+이 리포지토리에는 2개의 CSI와 1개의 리얼센스 카메라(RGB, Depth 이미지와 imu, gyro의 데이터(하지만 이 리포지토리에서 이미지와 가속도 센서를 동시 연결을 성공하지 못했습니다)를 사용하여 크게 다음의 내용을 담고 있습니다.   
+- **1) 실시간 이미지 스티칭**   
+- **2) 실시간 카메라 위치 인지 및 자세 유지를 위한 참조(Ref) 위치와의 오차 판단**   
+- **3) 객체 인식(엔드 이펙터를 통해 잡고자 하는 물체를 인식)**
+
 &nbsp; &nbsp;
 
 
 ## 1) 실시간 이미지 스티칭   
-여기에서 사용되는 코드는 1.rec_video.py, 2.camera_calibration.py, 3.realtime_camera_stitching.py, dual_camera_no_distortion.py 입니다.
+여기에서 사용되는 코드는 **1.rec_video.py**, **2.camera_calibration.py**, **3.realtime_camera_stitching.py**, **dual_camera_no_distortion.py** 입니다.
 
 제가 사용할 CSI 카메라(IMX219 160도)는 젯슨에 최대 2개 연결 할 수 있습니다. 2개의 카메라를 실시간으로 이미지 스티칭을 진행하여 원격지의 로봇의 주변의 이미지를 사용자에게 제공한다면 사용자는 로봇을 작동함에 있어 조금 더 편하게 작동이 가능할 것입니다.   
 이 카메라는 왜곡을 가지고 있기 때문에 우선적으로 카메라 캘리브레이션이 진행되어야 합니다. 이를 위해 우선적으로 1.rec_video.py를 수행하여 CSI 카메라로 부터 읽어온 카메라 데이터를 data 폴더에 저장합니다.
@@ -54,7 +58,7 @@ VR기반의 모바일 로봇는 가상 공간에 있는 디지털 트윈 로봇�
 
 &nbsp;
 ## 2) 실시간 카메라 위치 인지 및 자세 유지를 위한 오차 판단   
-여기에서 사용되는 코드는 endeffector_camera.py, endeffector_camera_imu.py, 4.endeffector_looking_book.py, 5.find_endeffecor_pose_error.py 입니다.
+여기에서 사용되는 코드는 **endeffector_camera.py**, **endeffector_camera_imu.py**, **4.endeffector_looking_book.py**, **5.find_endeffecor_pose_error.py** 입니다.
 
 RGBD 카메라는 두 개의 카메라를 조합하여 얻은 Depth 정보를 반환하는 카메라입니다. 제가 사용한 카메라는 Intel realsense D435i 카메라로 RGB 이미지는 기존 카메라들과 동일하나 Depth 이미지는 3차원 데이터에서 RGB 이미지에서 채널에 해당하는 축의 데이터는 1개의 채널로 구성되어있으며 (제가 테스트하며 확인한바로는) uint16형의 깊이 정보를 반환해줍니다. 뎁스 카메라를 사용하게 되면 얻는 깊이 정보를 기반으로 treshold가 가능하다는 장점을 가집니다.(RGB 카메라 하나만 사용할 때에 비해서 빛 등에 의한 영향이 줄어듦)
 
@@ -73,7 +77,7 @@ RGBD 카메라는 두 개의 카메라를 조합하여 얻은 Depth 정보를 �
 
 &nbsp;
 ## 3) 객체 인식   
-여기에서 사용되는 코드는 6.camera_treshold_contour.py, 8.realsense_img_save.py, yolov5 폴더 안에 있는 9.object_detect_using_depthNyolov5.py 입니다.
+여기에서 사용되는 코드는 **6.camera_treshold_contour.py**, **8.realsense_img_save.py**, yolov5 폴더 안에 있는 **9.object_detect_using_depthNyolov5.py** 입니다.
 
 
 **6.camera_treshold_contour.py**   
